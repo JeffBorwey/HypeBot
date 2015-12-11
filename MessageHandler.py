@@ -6,12 +6,10 @@ Created on Wed Dec 09 14:29:29 2015
 """
 from NumericStringParsing import NumericStringParser
 import pprint
-from hypchat import HypChat
 import time
 
-class MessageHandler:
 
-    
+class MessageHandler:
     def __init__(self, bot, enable_seed):
         self.math_parser = NumericStringParser()
         self.pprinter = pprint.PrettyPrinter(indent=4)
@@ -21,12 +19,11 @@ class MessageHandler:
         self.last_msg = long(str(time.time()).split('.')[0])
 
         print('Random start seed:' + enable_seed)
-        
-    
+
     def handle(self, msg):
         time_stamp_str = msg.xml.attrib['ts'].split('.')[0]
         time_stamp = long(time_stamp_str)
-        
+
         if time_stamp < self.last_msg:
             return None
         elif msg['type'] == 'groupchat':
@@ -35,7 +32,7 @@ class MessageHandler:
             from_name_full = msg['mucnick']
             split_str = message_body.split(' ')
 
-            #admin commands can only be invoked by the user
+            # admin commands can only be invoked by the user
             if from_name_full == self.bot.nickname:
                 if message_body == '!enable ' + self.enable_seed:
                     print('Enabling Bot')
@@ -45,27 +42,25 @@ class MessageHandler:
                     print('Disabling Bot')
                     self.enable_bot = False
                     self.bot.reply_room(msg, 'Functions now disabled')
-                
-                if self.enable_bot == True:
+
+                if self.enable_bot:
                     if split_str[0] == '!join':
                         room_name = ' '.join(split_str[1:])
                         if self.bot.join_room_by_name(room_name):
                             self.bot.reply_room(msg, "Joining room '%s'" % room_name)
                         else:
                             self.bot.reply_room(msg, "Could not find room")
-                
-            if self.enable_bot == False:
+
+            if not self.enable_bot:
                 return None
 
-            #Normal commands
-            #should break this out into another function
-            if self.enable_bot == True and message_body[0] == '!':
+            # Normal commands
+            # should break this out into another function
+            if self.enable_bot and message_body[0] == '!':
                 if split_str[0] == '!math':
                     args = ' '.join(split_str[1:])
-                    self.handle_math(from_name_full,args,msg)
+                    self.handle_math(from_name_full, args, msg)
 
-              
     def handle_math(self, name, math_str, msg):
         answer = self.math_parser.eval(math_str)
         self.bot.reply_room(msg, '%s, the answer is %f' % (name, answer))
-        

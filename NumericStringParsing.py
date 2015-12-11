@@ -20,11 +20,14 @@ class NumericStringParser(object):
     Most of this code comes from the fourFn.py pyparsing example
 
     '''
+
     def pushFirst(self, strg, loc, toks ):
         self.exprStack.append( toks[0] )
+
     def pushUMinus(self, strg, loc, toks ):
         if toks and toks[0]=='-': 
             self.exprStack.append( 'unary -' )
+
     def __init__(self):
         """
         expop   :: '^'
