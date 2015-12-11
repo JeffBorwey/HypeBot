@@ -33,7 +33,7 @@ class MessageHandler:
             split_str = message_body.split(' ')
 
             # admin commands can only be invoked by the user
-            if from_name_full == self.bot.nickname:
+            if from_name_full == self.bot.user_nickname:
                 if message_body == '!enable ' + self.enable_seed:
                     print('Enabling Bot')
                     self.enable_bot = True
