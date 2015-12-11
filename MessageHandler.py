@@ -8,6 +8,9 @@ from NumericStringParsing import NumericStringParser
 import pprint
 import time
 
+from functionClasses import AbstractHandler
+from functionClasses.Math import MathHandler
+
 
 class MessageHandler:
     def __init__(self, bot, enable_seed):
@@ -58,9 +61,10 @@ class MessageHandler:
             # should break this out into another function
             if self.enable_bot and message_body[0] == '!':
                 if split_str[0] == '!math':
-                    args = ' '.join(split_str[1:])
-                    self.handle_math(from_name_full, args, msg)
+                    handler = MathHandler.MathHandler(self.bot, self.math_parser)
+                    response = handler.handle(split_str, from_name_full)
+                else:
+                    """Reddit or Wiki for example"""
+                    response = "Hello World!"
+                self.bot.reply_room(msg, response)
 
-    def handle_math(self, name, math_str, msg):
-        answer = self.math_parser.eval(math_str)
-        self.bot.reply_room(msg, '%s, the answer is %f' % (name, answer))
