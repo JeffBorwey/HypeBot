@@ -1,8 +1,6 @@
 #Requires SleekXMPP, dnspython, pyasn1-modules, hypchat
 
 import logging
-import codecs
-import time
 from MessageHandler import MessageHandler
 from hypchat import HypChat
 from sleekxmpp import ClientXMPP
@@ -34,7 +32,7 @@ class HypeBot(ClientXMPP):
         self.register_plugin('xep_0060') # PubSub
         
         self.msg_handler = MessageHandler(self, str(uuid.uuid1()))
-        self.hc = HypChat("")
+        self.hc = HypChat(API_TOKEN)
 
     def session_start(self, event):
         self.get_roster()
