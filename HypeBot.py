@@ -4,7 +4,7 @@ import logging
 import codecs
 import time
 from MessageHandler import MessageHandler
-from threading import Thread
+from hypchat import HypChat
 from sleekxmpp import ClientXMPP
 from sleekxmpp.exceptions import IqError, IqTimeout
 import uuid
@@ -15,6 +15,8 @@ USER_ROOM_NICKNAME = 'First Last'
 USER_JID = '123456_1234567@chat.hipchat.com'
 #Login password
 USER_PWD = 'password'
+#API Token, create with desired permissions
+API_TOKEN = ''
 
 class HypeBot(ClientXMPP):
 
@@ -32,7 +34,7 @@ class HypeBot(ClientXMPP):
         self.register_plugin('xep_0060') # PubSub
         
         self.msg_handler = MessageHandler(self, str(uuid.uuid1()))
-
+        self.hc = HypChat("")
 
     def session_start(self, event):
         self.get_roster()
@@ -41,6 +43,15 @@ class HypeBot(ClientXMPP):
     #Join a hipchat room
     def join_room(self, room_jid):
         self.plugin['xep_0045'].joinMUC(room_jid, self.nickname, wait=True)
+
+
+    def join_room_by_name(self, room_name):
+        room_to_join = self.hc.get_room(room_name)
+        if room_to_join == None:
+            return False
+
+        self.bot.join_room(room_to_join['xmpp_jid'])
+        return True
 
 
     def reply_room(self, msg, body):

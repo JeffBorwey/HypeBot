@@ -6,12 +6,11 @@ Created on Wed Dec 09 14:29:29 2015
 """
 from NumericStringParsing import NumericStringParser
 import pprint
-import re
 from hypchat import HypChat
 import time
 
 class MessageHandler:
-    
+
     
     def __init__(self, bot, enable_seed):
         self.math_parser = NumericStringParser()
@@ -20,7 +19,7 @@ class MessageHandler:
         self.enable_bot = False
         self.enable_seed = enable_seed
         self.last_msg = long(str(time.time()).split('.')[0])
-        self.hc = HypChat("gRtEMnmibuedVa4iHnBSylYI2pJ8TPKwpBqjTtgP")
+
         print('Random start seed:' + enable_seed)
         
     
@@ -50,13 +49,10 @@ class MessageHandler:
                 if self.enable_bot == True:
                     if split_str[0] == '!join':
                         room_name = ' '.join(split_str[1:])
-                        room_to_join = self.hc.get_room(room_name)
-                        if room_to_join == None:
-                            self.bot.reply_room(msg, "Could not find room")
+                        if self.bot.join_room_by_name(room_name):
+                            self.bot.reply_room(msg, "Joining room '%s'" % room_name)
                         else:
-                            xmpp_jid = room_to_join['xmpp_jid']
-                            self.bot.reply_room(msg, "Joining room '%s'" % room_to_join['name'])
-                            self.bot.join_room(xmpp_jid)
+                            self.bot.reply_room(msg, "Could not find room")
                 
             if self.enable_bot == False:
                 return None
