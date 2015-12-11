@@ -10,6 +10,7 @@ import time
 
 from functionClasses import AbstractHandler
 from functionClasses.Math import MathHandler
+from functionClasses.ImageSearch import ImageSearch
 
 
 class MessageHandler:
@@ -63,8 +64,13 @@ class MessageHandler:
                 if split_str[0] == '!math':
                     handler = MathHandler.MathHandler(self.bot, self.math_parser)
                     response = handler.handle(split_str, from_name_full)
-                else:
+                elif split_str[0] == '!image':
+                    # image handler
+                    image_handler = ImageSearch.ImageSearch(self.bot)
+                    response = image_handler.handle(split_str, from_name_full)
+                elif split_str[0] == "!reddit":
                     """Reddit or Wiki for example"""
                     response = "Hello World!"
-                self.bot.reply_room(msg, response)
 
+                if response is not None:
+                    self.bot.reply_room(msg, response)

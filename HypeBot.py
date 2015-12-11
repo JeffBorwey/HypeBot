@@ -47,7 +47,6 @@ class HypeBot(ClientXMPP):
         startup_rooms=self.config.get(CONFIG_GENERAL,'startup_rooms_to_join').split(',')
         for room in startup_rooms:
             self.join_room_by_name(room)
-            self.reply_room_name(room, 'Hypebot Joined Room')
 
     def session_start(self, event):
         self.get_roster()
@@ -79,10 +78,13 @@ class HypeBot(ClientXMPP):
     def message(self, msg):
         self.msg_handler.handle(msg)
 
+    def notify_room_html(self, text):
+        self.hc.get_room('Hypebot').notification(text, format='html')
+
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(levelname)-8s %(message)s')
+    # logging.basicConfig(level=logging.DEBUG,
+    #                     format='%(levelname)-8s %(message)s')
 
     xmpp = HypeBot(CONFIG_FILE)
     xmpp.connect()
