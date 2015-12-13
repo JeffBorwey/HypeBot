@@ -1,0 +1,4 @@
+*.pyc
+.idea/encodings.xml
+install-reddit.sh
+

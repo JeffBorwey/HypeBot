@@ -81,6 +81,9 @@ class HypeBot(ClientXMPP):
     def notify_room_html(self, text):
         self.hc.get_room('Hypebot').notification(text, format='html')
 
+    def notify_room(self, text, format):
+        self.hc.get_room('Hypebot').notification(text, format=format)
+
 
 if __name__ == '__main__':
     # logging.basicConfig(level=logging.DEBUG,

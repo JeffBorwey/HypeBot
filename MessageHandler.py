@@ -9,6 +9,7 @@ import pprint
 import time
 
 from functionClasses import AbstractHandler
+from functionClasses.MagicTheGathering import MagicHandler
 from functionClasses.Math import MathHandler
 from functionClasses.ImageSearch import ImageSearch
 
@@ -71,6 +72,11 @@ class MessageHandler:
                 elif split_str[0] == "!reddit":
                     """Reddit or Wiki for example"""
                     response = "Hello World!"
+                elif split_str[0] == '!mtg':
+                    mtg_handler = MagicHandler.MagicTheGatheringHandler(self.bot)
+                    response = mtg_handler.handle(split_str, from_name_full)
+                else:
+                    response = None
 
                 if response is not None:
                     self.bot.reply_room(msg, response)
