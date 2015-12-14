@@ -15,7 +15,7 @@ class ImageSearch(AbstractHandler.AbstractHandler):
         self.opener = urllib2.build_opener()
         self.opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
-    def handle(self, message, from_name_full):
+    def handle(self, message, from_name_full, msg_obj):
         args = ' '.join(message[1:])
 
         # message should be sanitised

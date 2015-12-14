@@ -7,7 +7,7 @@ class MathHandler(AbstractHandler.AbstractHandler):
         AbstractHandler.AbstractHandler.__init__(self)
         self.math_parser = input_math_parser
 
-    def handle(self, message, from_name_full):
+    def handle(self, message, from_name_full, msg_obj):
         args = ' '.join(message[1:])
         answer = self.handle_math(from_name_full, args, message)
         return '%s, the answer is %f' % (from_name_full, answer)

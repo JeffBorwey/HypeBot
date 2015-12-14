@@ -5,6 +5,6 @@ from functionClasses import AbstractHandler
 
 class RedditHandler(AbstractHandler.AbstractHandler):
     
-    def handle(self, message, from_name_full):
+    def handle(self, message, from_name_full, msg_obj):
 
         return

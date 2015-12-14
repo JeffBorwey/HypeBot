@@ -7,7 +7,7 @@ class WikipediaHandler(AbstractHandler.AbstractHandler):
     def __init__(self, input_bot):
         AbstractHandler.AbstractHandler.__init__(self)
 
-    def handle(self, message, from_name_full):
+    def handle(self, message, from_name_full, msg_obj):
         response = self.get_extract_response(message)
         pages = response['query']['pages']
         if '-1' in pages.keys():

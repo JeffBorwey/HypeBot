@@ -1,10 +1,8 @@
 # Requires SleekXMPP, dnspython, pyasn1-modules, hypchat
 
-import logging
 from MessageHandler import MessageHandler
 from hypchat import HypChat
 from sleekxmpp import ClientXMPP
-import uuid
 import ConfigParser
 
 CONFIG_FILE = 'hypebot.conf'
@@ -38,7 +36,6 @@ class HypeBot(ClientXMPP):
         self.register_plugin('xep_0199')  # Ping
 
         # Setup message handler
-        self.instance_uuid = str(uuid.uuid1())
         self.msg_handler = MessageHandler(self)
 
         # Setup HypChat api client
