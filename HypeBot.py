@@ -35,6 +35,7 @@ class HypeBot(ClientXMPP):
         self.register_plugin('xep_0004')  # Data Forms
         self.register_plugin('xep_0045')  # MUC
         self.register_plugin('xep_0060')  # PubSub
+        self.register_plugin('xep_0199')  # Ping
 
         # Setup message handler
         self.instance_uuid = str(uuid.uuid1())
@@ -51,6 +52,9 @@ class HypeBot(ClientXMPP):
     def session_start(self, event):
         self.get_roster()
         self.send_presence()
+
+        # enable keepalive, times are in seconds
+        self.plugin['xep_0199'].enable_keepalive(interval=30, timeout=60)
 
     # Join a hipchat room
     def join_room(self, room_jid):
