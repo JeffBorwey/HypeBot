@@ -39,7 +39,7 @@ class HypeBot(ClientXMPP):
 
         # Setup message handler
         self.instance_uuid = str(uuid.uuid1())
-        self.msg_handler = MessageHandler(self, self.instance_uuid)
+        self.msg_handler = MessageHandler(self)
 
         # Setup HypChat api client
         self.hc = HypChat(self.user_api_token)
