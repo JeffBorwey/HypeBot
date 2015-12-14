@@ -12,6 +12,7 @@ from functionClasses import AbstractHandler
 from functionClasses.MagicTheGathering import MagicHandler
 from functionClasses.Math import MathHandler
 from functionClasses.ImageSearch import ImageSearch
+from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.Wikipedia import WikipediaHandler
 
 
@@ -79,6 +80,9 @@ class MessageHandler:
                 elif split_str[0] == '!wiki':
                     wiki_handler = WikipediaHandler.WikipediaHandler(self.bot)
                     response = wiki_handler.handle(split_str, from_name_full)
+                elif split_str[0] == '!netrunner':
+                    netrunner_handler = NetrunnerHandler.NetrunnerHandler(self.bot)
+                    response = netrunner_handler.handle(split_str, from_name_full)
                 else:
                     response = None
 
