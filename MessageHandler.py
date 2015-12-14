@@ -12,6 +12,7 @@ from functionClasses import AbstractHandler
 from functionClasses.MagicTheGathering import MagicHandler
 from functionClasses.Math import MathHandler
 from functionClasses.ImageSearch import ImageSearch
+from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.Wikipedia import WikipediaHandler
 
 COMMAND_CHAR = '!'
@@ -37,6 +38,7 @@ class MessageHandler:
         self.register_command('image', ImageSearch.ImageSearch(self.bot).handle)
         self.register_command('mtg', MagicHandler.MagicTheGatheringHandler(self.bot).handle)
         self.register_command('wiki', WikipediaHandler.WikipediaHandler(self.bot).handle)
+        self.register_command('netrunner', NetrunnerHandler.NetrunnerHandler(self.bot).handle)
 
     def register_command(self, command_string, message_handler, admin_only=False, enable_independent=False):
         self.command_dict[command_string] = message_handler
@@ -59,7 +61,6 @@ class MessageHandler:
             return None
         elif msg['type'] == 'groupchat':
             self.last_msg = time_stamp
-
             message_body = msg['body']
             from_name_full = msg['mucnick']
             split_str = message_body.split(' ')
