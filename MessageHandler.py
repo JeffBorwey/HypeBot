@@ -105,9 +105,9 @@ class MessageHandler:
     def join_cmd(self, message, from_name_full, msg_obj):
         room_name = ' '.join(message[1:])
         if self.bot.join_room_by_name(room_name):
-            self.bot.reply_room(message, "Joining room '%s'" % room_name)
+            self.bot.reply_room(msg_obj, "Joining room '%s'" % room_name)
         else:
-            self.bot.reply_room(message, "Could not find room")
+            self.bot.reply_room(msg_obj, "Could not find room")
 
     def remindme_cmd(self, message, from_name_full, msg_obj):
         remind_date_text = ' '.join(message[1:])
