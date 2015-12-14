@@ -41,6 +41,9 @@ class HypeBot(ClientXMPP):
         # Setup HypChat api client
         self.hc = HypChat(self.user_api_token)
 
+        # get jid to room map
+        self.jid_to_room = dict()
+
         # Join rooms on startup
         startup_rooms=self.config.get(CONFIG_GENERAL,'startup_rooms_to_join').split(',')
         for room in startup_rooms:
@@ -53,12 +56,25 @@ class HypeBot(ClientXMPP):
         # enable keepalive, times are in seconds
         self.plugin['xep_0199'].enable_keepalive(interval=30, timeout=60)
 
+    def populate_jid_to_room(self, room_name):
+        room = self.hc.get_room(room_name)
+        self.jid_to_room[room['xmpp_jid']] = room
+        return room
+        # rooms = self.hc.rooms()
+        # room_list = list(rooms.contents())
+        # for room in room_list:
+        #     room_self = room.self()
+        #     self.jid_to_room[room_self['xmpp_jid']] = room
+
     # Join a hipchat room
     def join_room(self, room_jid):
         self.plugin['xep_0045'].joinMUC(room_jid, self.user_nickname, wait=True)
 
     def join_room_by_name(self, room_name):
-        room_to_join = self.hc.get_room(room_name)
+        # Populate a map from jid to room
+        # and return the room at the same time
+        # this should help with rate-limiting on api calls
+        room_to_join = self.populate_jid_to_room(room_name)
         if room_to_join is None:
             return False
 
@@ -79,8 +95,8 @@ class HypeBot(ClientXMPP):
     def message(self, msg):
         self.msg_handler.handle(msg)
 
-    def notify_room_html(self, text):
-        self.hc.get_room('Hypebot').notification(text, format='html')
+    def notify_room_html(self, text, jid):
+        self.jid_to_room[jid].notification(text, format='html')
 
     def notify_room(self, text, format):
         self.hc.get_room('Hypebot').notification(text, format=format)

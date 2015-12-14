@@ -31,6 +31,6 @@ class ImageSearch(AbstractHandler.AbstractHandler):
             print(links.attrib['src'])
 
         url = isrmc[rand_index].attrib['src']
-        self.bot.notify_room_html("<img src='" + url + "' />")
+        self.bot.notify_room_html("<img src='" + url + "' />", msg_obj['from'].bare)
 
-        return "Image: %s" % url
+        return None
