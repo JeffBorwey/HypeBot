@@ -2,6 +2,7 @@ import urllib2
 import random
 from functionClasses import AbstractHandler
 from lxml import html
+from utils.UrlUtils import convertRawStringToURL
 
 GOOGLE_IMAGE_SEARCH_URL = 'https://www.google.com/search?q={query}&tbm=isch'
 
@@ -18,7 +19,7 @@ class ImageSearch(AbstractHandler.AbstractHandler):
         args = ' '.join(message[1:])
 
         # message should be sanitised
-        search_url = GOOGLE_IMAGE_SEARCH_URL.replace("{query}", args)
+        search_url = GOOGLE_IMAGE_SEARCH_URL.replace("{query}", convertRawStringToURL(args))
 
         html_str = self.opener.open(search_url).read()
 
