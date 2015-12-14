@@ -15,6 +15,7 @@ from functionClasses.ImageSearch import ImageSearch
 from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.RemindMeHandler import RemindMeHandler
 from functionClasses.Wikipedia import WikipediaHandler
+from functionClasses.LastFM import SimilarArtist
 
 COMMAND_CHAR = '!'
 
@@ -45,6 +46,7 @@ class MessageHandler:
         self.register_command('wiki', WikipediaHandler.WikipediaHandler(self.bot).handle)
         self.register_command('netrunner', NetrunnerHandler.NetrunnerHandler(self.bot).handle)
         self.register_command('remind', self.remindme_cmd)
+        self.register_command('similarartist', SimilarArtist.SimilarArtist(self.bot).handle)
 
         print('Bot started')
 
