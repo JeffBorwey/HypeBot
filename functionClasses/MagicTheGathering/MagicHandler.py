@@ -1,6 +1,6 @@
 from functionClasses import AbstractHandler
 from utils import UrlUtils
-from utils.BeautifulSoupUtils import BeautifulSoupUtils
+from utils.WebserviceTools import WebserviceTools
 
 
 class MagicTheGatheringHandler(AbstractHandler.AbstractHandler):
@@ -14,12 +14,11 @@ class MagicTheGatheringHandler(AbstractHandler.AbstractHandler):
         soup = self.create_url(card_name)
         return self.find_card(soup, from_name_full, card_name)
 
-
     def create_url(self, card_name):
         modified_name = UrlUtils.convertRawStringToURL(card_name)
         url = 'http://sales.starcitygames.com/cardsearch.php?singlesearch=%s' % modified_name
-        soupUtils = BeautifulSoupUtils()
-        soupForCard = soupUtils.getPage(url)
+        soupUtils = WebserviceTools()
+        soupForCard = soupUtils.getPageAsBeautifulSoup(url)
         return soupForCard
 
     def find_card(self, soup, name, card_name):
