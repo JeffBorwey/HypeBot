@@ -49,6 +49,8 @@ class HypeBot(ClientXMPP):
         for room in startup_rooms:
             self.join_room_by_name(room)
 
+        print('Bot initialized')
+
     def session_start(self, event):
         self.get_roster()
         self.send_presence()
@@ -74,6 +76,7 @@ class HypeBot(ClientXMPP):
         # Populate a map from jid to room
         # and return the room at the same time
         # this should help with rate-limiting on api calls
+        print("Joining room: " + room_name)
         room_to_join = self.populate_jid_to_room(room_name)
         if room_to_join is None:
             return False
@@ -97,10 +100,6 @@ class HypeBot(ClientXMPP):
 
     def notify_room_html(self, text, jid):
         self.jid_to_room[jid].notification(text, format='html')
-
-    def notify_room(self, text, format):
-        self.hc.get_room('Hypebot').notification(text, format=format)
-
 
 if __name__ == '__main__':
     # logging.basicConfig(level=logging.DEBUG,

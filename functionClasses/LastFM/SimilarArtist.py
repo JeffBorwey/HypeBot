@@ -2,7 +2,6 @@ import urllib2
 import random
 from functionClasses import AbstractHandler
 from lxml import html
-from utils.UrlUtils import convertRawStringToURL
 
 ARTIST_SEARCH_URL = 'http://www.last.fm/music/{query}/+similar'
 
