@@ -9,8 +9,11 @@ class JiraHandler(AbstractHandler.AbstractHandler):
         AbstractHandler.AbstractHandler.__init__(self)
         self.bot = bot
 
-    def handle(self, message, from_name_full, msg_obj):
-        card_name =' '.join(message[1:])
+    def handle(self, message, from_name_full):
+        jira_issue =' '.join(message[1:])
+
+
+
         soup = self.create_url(card_name)
         return self.find_card(soup, from_name_full, card_name)
 

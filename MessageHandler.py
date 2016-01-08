@@ -9,6 +9,7 @@ import pprint
 import time
 from Scheduler import Scheduler
 from functionClasses import AbstractHandler
+from functionClasses.Jira import JiraHandler
 from functionClasses.MagicTheGathering import MagicHandler
 from functionClasses.Math import MathHandler
 from functionClasses.ImageSearch import ImageSearch
