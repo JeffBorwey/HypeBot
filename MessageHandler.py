@@ -8,13 +8,12 @@ from NumericStringParsing import NumericStringParser
 import pprint
 import time
 from Scheduler import Scheduler
-from functionClasses import AbstractHandler
-from functionClasses.Jira import JiraHandler
 from functionClasses.MagicTheGathering import MagicHandler
 from functionClasses.Math import MathHandler
 from functionClasses.ImageSearch import ImageSearch
 from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.RemindMeHandler import RemindMeHandler
+from functionClasses.Roll import RollHandler
 from functionClasses.Wikipedia import WikipediaHandler
 from functionClasses.LastFM import SimilarArtist
 from functionClasses.Lenny import LennyFaceHandler
@@ -50,6 +49,7 @@ class MessageHandler:
         self.register_command('remind', self.remindme_cmd)
         self.register_command('similarartist', SimilarArtist.SimilarArtist(self.bot).handle)
         self.register_command('lenny', LennyFaceHandler.LennyFaceHandler(self.bot).handle)
+        self.register_command('roll', RollHandler.RollHandler(self.bot).handle)
 
         print('Bot started')
 
