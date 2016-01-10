@@ -33,6 +33,7 @@ class MessageHandler:
         self.scheduler.start()
 
         self.command_dict = dict()
+        self.help_dict = dict()
         self.command_admin_permission = dict()
         self.command_enable_permission = dict()
 
@@ -40,21 +41,35 @@ class MessageHandler:
         self.register_command('enable', self.enable_bot_cmd, admin_only=True, enable_independent=True)
         self.register_command('disable', self.disable_bot_cmd, admin_only=True)
         self.register_command('join', self.join_cmd, admin_only=True)
+        self.register_command('help', self.help_cmd, help='Display this message')
 
-        self.register_command('math', MathHandler.MathHandler(self.bot, self.math_parser).handle)
-        self.register_command('image', ImageSearch.ImageSearch(self.bot).handle)
-        self.register_command('mtg', MagicHandler.MagicTheGatheringHandler(self.bot).handle)
-        self.register_command('wiki', WikipediaHandler.WikipediaHandler(self.bot).handle)
-        self.register_command('netrunner', NetrunnerHandler.NetrunnerHandler(self.bot).handle)
-        self.register_command('remind', self.remindme_cmd)
-        self.register_command('similarartist', SimilarArtist.SimilarArtist(self.bot).handle)
-        self.register_command('lenny', LennyFaceHandler.LennyFaceHandler(self.bot).handle)
-        self.register_command('roll', RollHandler.RollHandler(self.bot).handle)
+        self.register_command('math', MathHandler.MathHandler(self.bot, self.math_parser).handle,
+                                help='Executes basic mathematics statements')
+        self.register_command('image', ImageSearch.ImageSearch(self.bot).handle,
+                                help='Finds and displays the requested image from the internet.')
+        self.register_command('mtg', MagicHandler.MagicTheGatheringHandler(self.bot).handle,
+                                help='Finds and displays the requested Magic: The Gathering card.')
+        self.register_command('wiki', WikipediaHandler.WikipediaHandler(self.bot).handle,
+                                help='Finds and displays the requested wikipedia article, if it exists.')
+        self.register_command('netrunner', NetrunnerHandler.NetrunnerHandler(self.bot).handle,
+                                help='Finds and displays the requested Android: Netrunner card.')
+        self.register_command('remind', self.remindme_cmd,
+                                help='Reminds the user after the requested time period.')
+        self.register_command('similarartist', SimilarArtist.SimilarArtist(self.bot).handle,
+                                help='Displays a similar artist to the listed one.')
+        self.register_command('lenny', LennyFaceHandler.LennyFaceHandler(self.bot).handle,
+                                help='Finds and displays a random Lenny Face.')
+        self.register_command('roll', RollHandler.RollHandler(self.bot).handle,
+                                help='Rolls Y X-sided dice with the phrasing !roll YdX')
 
         print('Bot started')
 
-    def register_command(self, command_string, message_handler, admin_only=False, enable_independent=False):
+    def register_command(self, command_string, message_handler, help=None,
+                                admin_only=False, enable_independent=False):
         self.command_dict[command_string] = message_handler
+
+        if not admin_only:
+            self.help_dict[command_string] = help
 
         if admin_only:
             self.command_admin_permission[command_string] = admin_only
@@ -113,6 +128,12 @@ class MessageHandler:
             self.bot.reply_room(msg_obj, "Joining room '%s'" % room_name)
         else:
             self.bot.reply_room(msg_obj, "Could not find room")
+
+    def help_cmd(self, message, from_name_full, msg_obj):
+        returned_message = ""
+        for help_message in self.help_dict.items():
+            returned_message = returned_message + help_message[0] + ' : ' + help_message[1] + '\n'
+        return returned_message
 
     def remindme_cmd(self, message, from_name_full, msg_obj):
         remind_date_text = ' '.join(message[1:])
