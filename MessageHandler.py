@@ -14,6 +14,7 @@ from functionClasses.ImageSearch import ImageSearch
 from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.RemindMeHandler import RemindMeHandler
 from functionClasses.Roll import RollHandler
+from functionClasses.Translate import TranslateHandler
 from functionClasses.Wikipedia import WikipediaHandler
 from functionClasses.LastFM import SimilarArtist
 from functionClasses.Lenny import LennyFaceHandler
@@ -61,7 +62,11 @@ class MessageHandler:
                                 help='Finds and displays a random Lenny Face.')
         self.register_command('roll', RollHandler.RollHandler(self.bot).handle,
                                 help='Rolls Y X-sided dice with the phrasing !roll YdX')
-
+        self.register_command('translate', TranslateHandler.TranslateHandler(self.bot).handle,
+                                help='Translates a phrase from one language to another. \nUse   '
+                                     ' phrase|from_language|to_language \n'
+                                     'OR phrase|to_language to translate to another language and trust in language auto-detection\n'
+                                     'OR just phrase if you want to translate to English and still trust auto-detection. \n')
         print('Bot started')
 
     def register_command(self, command_string, message_handler, help=None,

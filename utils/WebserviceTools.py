@@ -24,3 +24,7 @@ class WebserviceTools:
         """
         response = requests.get(url, params=params)
         return response.json()
+
+    def getResponse(self, url, params):
+        response = requests.get(url, params=params)
+        return response
