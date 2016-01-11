@@ -46,24 +46,29 @@ class MessageHandler:
 
         self.register_command('math', MathHandler.MathHandler(self.bot, self.math_parser).handle,
                                 help='Executes basic mathematics statements')
-        self.register_command('image', ImageSearch.ImageSearch(self.bot).handle,
-                                help='Finds and displays the requested image from the internet.')
+
+        google_engine_id = self.bot.config.get('Authentication', 'google_search_engine_id')
+        google_auth_token = self.bot.config.get('Authentication', 'google_search_api_token')
+        self.register_command('image', ImageSearch.ImageSearch(self.bot, google_auth_token, google_engine_id).handle,
+                              help='Finds and displays the requested image from the internet. \n'
+                                   'You can specify filetype:gif for animated images.\n'
+                                   'Limited to 1 query per second.')
         self.register_command('mtg', MagicHandler.MagicTheGatheringHandler(self.bot).handle,
-                                help='Finds and displays the requested Magic: The Gathering card.')
+                              help='Finds and displays the requested Magic: The Gathering card.')
         self.register_command('wiki', WikipediaHandler.WikipediaHandler(self.bot).handle,
-                                help='Finds and displays the requested wikipedia article, if it exists.')
+                              help='Finds and displays the requested wikipedia article, if it exists.')
         self.register_command('netrunner', NetrunnerHandler.NetrunnerHandler(self.bot).handle,
-                                help='Finds and displays the requested Android: Netrunner card.')
+                              help='Finds and displays the requested Android: Netrunner card.')
         self.register_command('remind', self.remindme_cmd,
-                                help='Reminds the user after the requested time period.')
+                              help='Reminds the user after the requested time period.')
         self.register_command('similarartist', SimilarArtist.SimilarArtist(self.bot).handle,
-                                help='Displays a similar artist to the listed one.')
+                              help='Displays a similar artist to the listed one.')
         self.register_command('lenny', LennyFaceHandler.LennyFaceHandler(self.bot).handle,
-                                help='Finds and displays a random Lenny Face.')
+                              help='Finds and displays a random Lenny Face.')
         self.register_command('roll', RollHandler.RollHandler(self.bot).handle,
-                                help='Rolls Y X-sided dice with the phrasing !roll YdX')
+                              help='Rolls Y X-sided dice with the phrasing !roll YdX')
         self.register_command('translate', TranslateHandler.TranslateHandler(self.bot).handle,
-                                help='Translates a phrase from one language to another. \nUse   '
+                              help='Translates a phrase from one language to another. \nUse   '
                                      ' phrase|from_language|to_language \n'
                                      'OR phrase|to_language to translate to another language and trust in language auto-detection\n'
                                      'OR just phrase if you want to translate to English and still trust auto-detection. \n')
