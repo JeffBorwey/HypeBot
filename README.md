@@ -9,3 +9,4 @@ requires python packages:
 *parsedatetime
 *BeautifulSoup
 *google-api-python-client
+*microsofttranslator

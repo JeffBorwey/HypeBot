@@ -11,6 +11,7 @@ from Scheduler import Scheduler
 from functionClasses.MagicTheGathering import MagicHandler
 from functionClasses.Math import MathHandler
 from functionClasses.ImageSearch import ImageSearch
+from functionClasses.ImageSearch import GifSearch
 from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.RemindMeHandler import RemindMeHandler
 from functionClasses.Roll import RollHandler
@@ -45,7 +46,7 @@ class MessageHandler:
         self.register_command('help', self.help_cmd, help='Display this message')
 
         self.register_command('math', MathHandler.MathHandler(self.bot, self.math_parser).handle,
-                                help='Executes basic mathematics statements')
+                              help='Executes basic mathematics statements')
 
         google_engine_id = self.bot.config.get('Authentication', 'google_search_engine_id')
         google_auth_token = self.bot.config.get('Authentication', 'google_search_api_token')
@@ -53,6 +54,9 @@ class MessageHandler:
                               help='Finds and displays the requested image from the internet. \n'
                                    'You can specify filetype:gif for animated images.\n'
                                    'Limited to 1 query per second.')
+        self.register_command('gif', GifSearch.GifSearch(self.bot, google_auth_token, google_engine_id).handle,
+                              help='Finds and displays the requested gif image from the internet. \n'
+                              'Limited to 1 query per second.')
         self.register_command('mtg', MagicHandler.MagicTheGatheringHandler(self.bot).handle,
                               help='Finds and displays the requested Magic: The Gathering card.')
         self.register_command('wiki', WikipediaHandler.WikipediaHandler(self.bot).handle,

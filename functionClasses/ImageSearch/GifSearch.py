@@ -3,7 +3,7 @@ from functionClasses import AbstractHandler
 from googleapiclient.discovery import build
 
 
-class ImageSearch(AbstractHandler.AbstractHandler):
+class GifSearch(AbstractHandler.AbstractHandler):
 
     def __init__(self, input_bot, dev_key, engine_id):
         AbstractHandler.AbstractHandler.__init__(self)
@@ -13,8 +13,9 @@ class ImageSearch(AbstractHandler.AbstractHandler):
         self.service = build("customsearch", "v1", developerKey=self.dev_key)
 
     def handle(self, message, from_name_full, msg_obj):
-        args = ' '.join(message[1:])
+        args = ' '.join(message[1:]) + " filetype:gif"
 
+        # https://developers.google.com/custom-search/json-api/v1/reference/cse/list?hl=en
         res = self.service.cse().list(q=args, cx=self.engine_id, searchType="image", safe="high").execute()
         res_items = res['items']
         rand_idx = random.randint(0, len(res_items)-1)
