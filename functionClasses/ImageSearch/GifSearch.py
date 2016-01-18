@@ -16,7 +16,11 @@ class GifSearch(AbstractHandler.AbstractHandler):
         args = ' '.join(message[1:]) + " filetype:gif"
 
         # https://developers.google.com/custom-search/json-api/v1/reference/cse/list?hl=en
-        res = self.service.cse().list(q=args, cx=self.engine_id, searchType="image", safe="high").execute()
+        res = self.service.cse().list(q=args,
+                                      cx=self.engine_id,
+                                      searchType="image",
+                                      safe="high",
+                                      hq='animated').execute()
         res_items = res['items']
         rand_idx = random.randint(0, len(res_items)-1)
         img_url = res_items[rand_idx]['link']
