@@ -45,7 +45,7 @@ class HypeBot(ClientXMPP):
         self.jid_to_room = dict()
 
         # Join rooms on startup
-        startup_rooms=self.config.get(CONFIG_GENERAL,'startup_rooms_to_join').split(',')
+        startup_rooms = self.config.get(CONFIG_GENERAL, 'startup_rooms_to_join').split(',')
         for room in startup_rooms:
             self.join_room_by_name(room)
 
@@ -53,10 +53,10 @@ class HypeBot(ClientXMPP):
 
     def session_start(self, event):
         self.get_roster()
-        self.send_presence()
+        self.send_presence(ppriority=0)
 
         # enable keepalive, times are in seconds
-        self.plugin['xep_0199'].enable_keepalive(interval=30, timeout=60)
+        self.plugin['xep_0199'].enable_keepalive(interval=30, timeout=30)
 
     def populate_jid_to_room(self, room_name):
         room = self.hc.get_room(room_name)
@@ -70,7 +70,7 @@ class HypeBot(ClientXMPP):
 
     # Join a hipchat room
     def join_room(self, room_jid):
-        self.plugin['xep_0045'].joinMUC(room_jid, self.user_nickname, wait=True)
+        self.plugin['xep_0045'].joinMUC(room_jid, self.user_nickname, maxhistory=None, wait=True)
 
     def join_room_by_name(self, room_name):
         # Populate a map from jid to room

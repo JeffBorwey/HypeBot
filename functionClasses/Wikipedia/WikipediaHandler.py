@@ -14,7 +14,7 @@ class WikipediaHandler(AbstractHandler.AbstractHandler):
             return "%s, The page %s doesn't seem to exist..." % (from_name_full, ' '.join(message[1:]))
         else:
             query = ' '.join(message[1:])
-            query.replace(' ', '_')
+            query = query.replace(' ', '_')
             response = 'https://en.wikipedia.org/wiki/%s' % query
             return '%s, I found the article you requested: %s' % (from_name_full, response)
 
