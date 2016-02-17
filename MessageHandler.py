@@ -14,11 +14,15 @@ from functionClasses.ImageSearch import ImageSearch
 from functionClasses.ImageSearch import GifSearch
 from functionClasses.Netrunner import NetrunnerHandler
 from functionClasses.RemindMeHandler import RemindMeHandler
+from functionClasses.DankifyImage import Dankify
 from functionClasses.Roll import RollHandler
 from functionClasses.Translate import TranslateHandler
 from functionClasses.Wikipedia import WikipediaHandler
 from functionClasses.LastFM import SimilarArtist
+from functionClasses.WolframAlphaCommands import WolframBasicQuery
 from functionClasses.Lenny import LennyFaceHandler
+from WolframAlphaClient import WolframAlphaClient
+from ImgurClient import ImgurClient
 
 COMMAND_CHAR = '!'
 
@@ -76,10 +80,24 @@ class MessageHandler:
                                      ' phrase|from_language|to_language \n'
                                      'OR phrase|to_language to translate to another language and trust in language auto-detection\n'
                                      'OR just phrase if you want to translate to English and still trust auto-detection. \n')
+        wolfram_alpha_api_token = self.bot.config.get('Authentication', 'wolfram_alpha_api_token')
+        self.wolfram_alpha_client = WolframAlphaClient(wolfram_alpha_api_token)
+        self.register_command('wolfram',
+                              WolframBasicQuery.WolframAlphaBasicQueryHandler(self.bot,
+                                                                              self.wolfram_alpha_client).handle,
+                              help='Queries WolframAlpha!')
+        imgur_id = self.bot.config.get('Authentication', 'imgur_client_id')
+        imgur_secret = self.bot.config.get('Authentication', 'imgur_client_secret')
+        self.imgur_client = ImgurClient(imgur_id, imgur_secret)
+        self.register_command('dankify',
+                              Dankify.Dankify(self.bot, self.imgur_client).handle,
+                              help='Can be used to produce a dankified image! \n'
+                                   'Use: !dankify [url]')
+
         print('Bot started')
 
     def register_command(self, command_string, message_handler, help=None,
-                                admin_only=False, enable_independent=False):
+                         admin_only=False, enable_independent=False):
         self.command_dict[command_string] = message_handler
 
         if not admin_only:
@@ -102,7 +120,7 @@ class MessageHandler:
         if time_stamp < self.last_msg:
             return None
         elif msg['type'] == 'groupchat':
-            self.last_msg = time_stamp
+            # self.last_msg = time_stamp
             message_body = msg['body']
             from_name_full = msg['mucnick']
             split_str = message_body.split(' ')

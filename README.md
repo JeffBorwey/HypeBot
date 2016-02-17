@@ -10,3 +10,8 @@ requires python packages:
 *BeautifulSoup
 *google-api-python-client
 *microsofttranslator
+*wolframalpha
+*python-imaging
+*cv2
+*pgmagick (with GraphicsMagick)
+*imgurpython
